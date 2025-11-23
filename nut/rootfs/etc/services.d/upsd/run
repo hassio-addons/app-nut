@@ -4,8 +4,14 @@
 # Run upsd
 # ==============================================================================
 if ! bashio::config.equals 'mode' 'netserver' ;then
-    exec sleep 864000
+    exec tail -f /dev/null
 fi
 
 bashio::log.info "Starting the UPS information server..."
-exec upsd -D -u root
+# bashio only has functions for checking the `debug` and `trace` log levels.
+#if bashio::info; then
+if [[ "${__BASHIO_LOG_LEVEL}" -ge "${__BASHIO_LOG_LEVEL_INFO}" ]]; then
+    exec upsd -D -u root
+else
+    exec upsd -F -u root
+fi

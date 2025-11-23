@@ -1,0 +1,15 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# Home Assistant Community Add-on: Network UPS Tools
+# Run upsdrvctl
+# ==============================================================================
+if ! bashio::config.equals 'mode' 'netserver'; then
+    exec tail -f /dev/null
+fi
+
+bashio::log.info "Starting the UPS drivers..."
+if bashio::debug; then
+    exec upsdrvctl -F -u root -D start
+else
+    exec upsdrvctl -F -u root start
+fi

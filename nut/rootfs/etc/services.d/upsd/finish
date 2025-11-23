@@ -4,7 +4,7 @@
 # Take down the S6 supervision tree when upsd fails
 # ==============================================================================
 if [[ "${1}" -ne 0 ]] && [[ "${1}" -ne 256 ]]; then
-  bashio::log.warning "upsd crashed, halting add-on"
+  bashio::log.warning "upsd crashed with exit code ${1}, halting add-on"
   /run/s6/basedir/bin/halt
 fi
 
