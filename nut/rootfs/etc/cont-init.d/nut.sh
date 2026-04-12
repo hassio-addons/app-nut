@@ -108,15 +108,25 @@ if bashio::config.equals 'mode' 'netserver' ;then
 
         echo "MONITOR ${upsname}@localhost ${upspowervalue} upsmonmaster ${upsmonpwd} primary" \
             >> /etc/nut/upsmon.conf
-    done
 
-    bashio::log.info "Starting the UPS drivers..."
-    # Run upsdrvctl
-    if bashio::debug; then
-        upsdrvctl -u root -D start
-    else
-        upsdrvctl -u root start
-    fi
+        bashio::log.info "Registering supervised driver service for ${upsname}..."
+        mkdir -p "/etc/services.d/nut-driver-${upsname}"
+        {
+            echo "#!/command/with-contenv bashio"
+            echo "if bashio::debug; then"
+            echo "    exec /usr/libexec/nut/${upsdriver} -F -D -u root -a ${upsname}"
+            echo "else"
+            echo "    exec /usr/libexec/nut/${upsdriver} -F -u root -a ${upsname}"
+            echo "fi"
+        } > "/etc/services.d/nut-driver-${upsname}/run"
+        chmod +x "/etc/services.d/nut-driver-${upsname}/run"
+
+        {
+            echo "#!/command/with-contenv bashio"
+            echo "bashio::log.warning \"UPS driver for ${upsname} stopped, restarting...\""
+        } > "/etc/services.d/nut-driver-${upsname}/finish"
+        chmod +x "/etc/services.d/nut-driver-${upsname}/finish"
+    done
 fi
 
 shutdowncmd="/run/s6/basedir/bin/halt"
