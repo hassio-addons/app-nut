@@ -1,10 +1,10 @@
 #!/command/with-contenv bashio
 # ==============================================================================
-# Home Assistant Community Add-on: Network UPS Tools
+# Home Assistant Community App: Network UPS Tools
 # Take down the S6 supervision tree when upsmon fails
 # ==============================================================================
 if [[ "${1}" -ne 0 ]] && [[ "${1}" -ne 256 ]]; then
-  bashio::log.warning "upsmon crashed, halting add-on"
+  bashio::log.warning "upsmon crashed, halting app"
   /run/s6/basedir/bin/halt
 fi
 

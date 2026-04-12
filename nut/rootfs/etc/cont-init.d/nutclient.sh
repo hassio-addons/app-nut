@@ -1,6 +1,6 @@
 #!/command/with-contenv bashio
 # ==============================================================================
-# Home Assistant Community Add-on: Network UPS Tools
+# Home Assistant Community App: Network UPS Tools
 # Configures Network UPS Tools for Client Mode only
 # ==============================================================================
 declare deadtime=15

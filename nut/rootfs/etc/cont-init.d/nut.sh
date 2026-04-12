@@ -1,6 +1,6 @@
 #!/command/with-contenv bashio
 # ==============================================================================
-# Home Assistant Community Add-on: Network UPS Tools
+# Home Assistant Community App: Network UPS Tools
 # Configures Network UPS Tools
 # ==============================================================================
 readonly USERS_CONF=/etc/nut/upsd.users
