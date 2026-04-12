@@ -18,7 +18,7 @@ chmod 0770 /run/nut
 
 chown -R root:root /etc/nut
 find /etc/nut -not -perm 0660 -type f -exec chmod 0660 {} \;
-find /etc/nut -not -perm 0660 -type d -exec chmod 0660 {} \;
+find /etc/nut -not -perm 0770 -type d -exec chmod 0770 {} \;
 
 nutmode=$(bashio::config 'mode')
 bashio::log.info "Setting mode to ${nutmode}..."
