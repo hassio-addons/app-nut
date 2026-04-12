@@ -13,6 +13,7 @@ RUN \
         autoconf=2.72-3.1 \
         automake=1:1.17-4 \
         build-essential=12.12 \
+        libhidapi-dev=0.14.0-1+b2 \
         libltdl-dev=2.5.4-4 \
         libmodbus-dev=3.1.11-2 \
         libsnmp-dev=5.9.4+dfsg-2+deb13u1 \
@@ -36,7 +37,7 @@ RUN \
     && tar -xzvf "${NUT_FILENAME}" \
     && cd "${NUT_FILENAME%.tar.gz}" \
     && ./configure --prefix=/usr --datadir=/usr/share/nut --sysconfdir=/etc/nut --with-drvpath=/usr/libexec/nut \
-        --with-usb --with-modbus --with-snmp --with-ssl \
+        --with-usb --with-hidapi --with-modbus --with-snmp --with-ssl \
     && make \
     && make DESTDIR=/app install
 
@@ -51,6 +52,7 @@ COPY --from=builder /app /
 # Setup app
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+        libhidapi-hidraw0=0.14.0-1+b2 \
         libmodbus5=3.1.11-2 \
         libsnmp40t64=5.9.4+dfsg-2+deb13u1 \
         libusb-1.0-0=2:1.0.28-1 \
