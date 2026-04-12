@@ -18,7 +18,7 @@ if bashio::config.equals 'mode' 'netclient' ;then
     rhost=$(bashio::config "remote_ups_host")
     ruser=$(bashio::config "remote_ups_user")
     rpwd=$(bashio::config "remote_ups_password")
-    echo "MONITOR ${rname}@${rhost} 1 ${ruser} ${rpwd} slave" \
+    echo "MONITOR ${rname}@${rhost} 1 ${ruser} ${rpwd} secondary" \
         >> /etc/nut/upsmon.conf
 fi
 

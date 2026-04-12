@@ -38,7 +38,7 @@ if bashio::config.equals 'mode' 'netserver' ;then
         echo
         echo "[upsmonmaster]"
         echo "  password = ${upsmonpwd}"
-        echo "  upsmon master"
+        echo "  upsmon primary"
     } >> "${USERS_CONF}"
 
     for user in $(bashio::config "users|keys"); do
@@ -69,6 +69,8 @@ if bashio::config.equals 'mode' 'netserver' ;then
 
         if bashio::config.has_value "users[${user}].upsmon"; then
             upsmon=$(bashio::config "users[${user}].upsmon")
+            [[ "${upsmon}" == "master" ]] && upsmon="primary"
+            [[ "${upsmon}" == "slave" ]] && upsmon="secondary"
             echo "  upsmon ${upsmon}" >> "${USERS_CONF}"
         fi
     done
@@ -103,7 +105,7 @@ if bashio::config.equals 'mode' 'netserver' ;then
         done
         IFS="$OIFS"
 
-        echo "MONITOR ${upsname}@localhost ${upspowervalue} upsmonmaster ${upsmonpwd} master" \
+        echo "MONITOR ${upsname}@localhost ${upspowervalue} upsmonmaster ${upsmonpwd} primary" \
             >> /etc/nut/upsmon.conf
     done
 

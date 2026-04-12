@@ -112,8 +112,8 @@ The list of actions is expected to grow in the future.
 #### Sub-option: `upsmon`
 
 Add the necessary actions for a `upsmon` process to work. This is either set to
-`master` or `slave`. If creating an account for a `netclient` setup to connect
-this should be set to `slave`.
+`primary` or `secondary`. If creating an account for a `netclient` setup to connect
+this should be set to `secondary`.
 
 ### Option: `devices`
 
@@ -184,7 +184,7 @@ devices:
 Recognized values are `netserver` and `netclient`.
 
 - `netserver`: Runs the components needed to manage a locally connected UPS and
-  allow other clients to connect (either as slaves or for management).
+  allow other clients to connect (either as secondaries or for management).
 - `netclient`: Only runs `upsmon` to connect to a remote system running as
   `netserver`.
 
@@ -267,7 +267,7 @@ See the below table for more information as well as the message that will be in
 | `ONLINE`   | UPS is back online                                                    | "UPS %s on line power"                             |
 | `ONBATT`   | UPS is on battery                                                     | "UPS %s on battery"                                |
 | `LOWBATT`  | UPS has a low battery (if also on battery, it's "critical")           | "UPS %s battery is low"                            |
-| `FSD`      | UPS is being shutdown by the master (FSD = "Forced Shutdown")         | "UPS %s: forced shutdown in progress"              |
+| `FSD`      | UPS is being shutdown by the primary (FSD = "Forced Shutdown")        | "UPS %s: forced shutdown in progress"              |
 | `COMMOK`   | Communications established with the UPS                               | "Communications with UPS %s established"           |
 | `COMMBAD`  | Communications lost to the UPS                                        | "Communications with UPS %s lost"                  |
 | `SHUTDOWN` | The system is being shutdown                                          | "Auto logout and shutdown proceeding"              |
