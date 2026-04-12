@@ -9,8 +9,8 @@ declare -a CONF_ENTRIES=("name" "host" "password" "user")
 if bashio::config.equals 'mode' 'netclient' ;then
     for entry in "${CONF_ENTRIES[@]}"; do
         if ! bashio::config.exists "remote_ups_${entry}";then
-        bashio::exit.nok \
-            "Netclient mode specified but no ${entry} is configured"
+            bashio::exit.nok \
+                "Netclient mode specified but no ${entry} is configured"
         fi
     done
 
