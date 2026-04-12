@@ -8,6 +8,7 @@ readonly UPSD_CONF=/etc/nut/upsd.conf
 declare nutmode
 declare password
 declare shutdowncmd
+declare upsmon
 declare upsmonpwd
 declare username
 
