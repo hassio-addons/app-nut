@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Home Assistant Community Add-on: Network UPS Tools
+# Home Assistant Community App: Network UPS Tools
 # Notify handler script
 # ==============================================================================
 
