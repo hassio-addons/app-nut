@@ -1,4 +1,4 @@
-# Home Assistant Community Add-on: Network UPS Tools
+# Home Assistant Community App: Network UPS Tools
 
 [![GitHub Release][releases-shield]][releases]
 ![Project Stage][project-stage-shield]
@@ -34,7 +34,7 @@ are [compatible][nut-compatible].
 The Network UPS Tools (NUT) project is the combined effort of
 many [individuals and companies][nut-acknowledgements].
 
-[:books: Read the full add-on documentation, including installation instructions][docs]
+[:books: Read the full app documentation, including installation instructions][docs]
 
 ## Support
 
@@ -42,7 +42,7 @@ Got questions?
 
 You have several options to get them answered:
 
-- The [Home Assistant Community Add-ons Discord chat server][discord] for add-on
+- The [Home Assistant Community Apps Discord chat server][discord] for app
   support and feature requests.
 - The [Home Assistant Discord chat server][discord-ha] for general Home
   Assistant discussions and questions.
@@ -68,18 +68,18 @@ The original setup of this repository is by [Dale Higgs][dale3h].
 For a full list of all authors and contributors,
 check [the contributor's page][contributors].
 
-## We have got some Home Assistant add-ons for you
+## We have got some Home Assistant Apps for you
 
 Want some more functionality to your Home Assistant instance?
 
-We have created multiple add-ons for Home Assistant. For a full list, check out
+We have created multiple Apps for Home Assistant. For a full list, check out
 our [GitHub Repository][repository].
 
 ## License
 
 MIT License
 
-Copyright (c) 2018-2025 Dale Higgs
+Copyright (c) 2018-2026 Dale Higgs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -103,27 +103,27 @@ SOFTWARE.
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
 [buymeacoffee-shield]: https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-2.svg
 [buymeacoffee]: https://www.buymeacoffee.com/dale3h
-[commits-shield]: https://img.shields.io/github/commit-activity/y/hassio-addons/addon-nut.svg
-[commits]: https://github.com/hassio-addons/addon-nut/commits/main
-[contributors]: https://github.com/hassio-addons/addon-nut/graphs/contributors
+[commits-shield]: https://img.shields.io/github/commit-activity/y/hassio-addons/app-nut.svg
+[commits]: https://github.com/hassio-addons/app-nut/commits/main
+[contributors]: https://github.com/hassio-addons/app-nut/graphs/contributors
 [dale3h]: https://github.com/dale3h
 [discord-ha]: https://discord.gg/c5DvZ4e
 [discord-shield]: https://img.shields.io/discord/478094546522079232.svg
 [discord]: https://discord.me/hassioaddons
-[docs]: https://github.com/hassio-addons/addon-nut/blob/main/nut/DOCS.md
+[docs]: https://github.com/hassio-addons/app-nut/blob/main/nut/DOCS.md
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg
 [forum]: https://community.home-assistant.io/t/community-hass-io-add-on-network-ups-tools/68516
-[github-actions-shield]: https://github.com/hassio-addons/addon-nut/workflows/CI/badge.svg
-[github-actions]: https://github.com/hassio-addons/addon-nut/actions
-[issue]: https://github.com/hassio-addons/addon-nut/issues
-[license-shield]: https://img.shields.io/github/license/hassio-addons/addon-nut.svg
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2025.svg
+[github-actions-shield]: https://github.com/hassio-addons/app-nut/workflows/CI/badge.svg
+[github-actions]: https://github.com/hassio-addons/app-nut/actions
+[issue]: https://github.com/hassio-addons/app-nut/issues
+[license-shield]: https://img.shields.io/github/license/hassio-addons/app-nut.svg
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg
 [nut-acknowledgements]: https://networkupstools.org/acknowledgements.html
 [nut-compatible]: https://networkupstools.org/stable-hcl.html
 [nut-features]: https://networkupstools.org/features.html
 [nut-ha-docs]: https://www.home-assistant.io/integrations/nut/
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
 [reddit]: https://reddit.com/r/homeassistant
-[releases-shield]: https://img.shields.io/github/release/hassio-addons/addon-nut.svg
-[releases]: https://github.com/hassio-addons/addon-nut/releases
+[releases-shield]: https://img.shields.io/github/release/hassio-addons/app-nut.svg
+[releases]: https://github.com/hassio-addons/app-nut/releases
 [repository]: https://github.com/hassio-addons/repository
