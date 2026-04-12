@@ -4,7 +4,7 @@ FROM ${BUILD_FROM} AS base
 
 FROM base AS builder
 
-ARG NUT_VERSION=2.8.4
+ARG NUT_VERSION=2.8.5
 
 # Setup builder
 RUN \
