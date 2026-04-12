@@ -20,9 +20,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["//Dockerfile$/"],
-      "matchStrings": [
-        "ARG NUT_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
-      ],
+      "matchStrings": ["ARG NUT_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "networkupstools/nut",
       "extractVersionTemplate": "^v(?<version>.*)$"
