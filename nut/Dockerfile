@@ -36,8 +36,7 @@ RUN \
     && tar -xzvf "${NUT_FILENAME}" \
     && cd "${NUT_FILENAME%.tar.gz}" \
     && ./configure --prefix=/usr --datadir=/usr/share/nut --sysconfdir=/etc/nut --with-drvpath=/usr/libexec/nut \
-        --enable-static \
-        --with-usb --with-modbus --with-snmp --with-nut-scanner --with-ssl \
+        --with-usb --with-modbus --with-snmp --with-ssl \
     && make \
     && make DESTDIR=/app install
 
@@ -52,7 +51,6 @@ COPY --from=builder /app /
 # Setup app
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        libltdl7=2.5.4-4 \
         libmodbus5=3.1.11-2 \
         libsnmp40t64=5.9.4+dfsg-2+deb13u1 \
         libusb-1.0-0=2:1.0.28-1 \
