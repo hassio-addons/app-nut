@@ -20,13 +20,23 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["//Dockerfile$/"],
+      "matchStrings": [
+        "ARG NUT_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "networkupstools/nut",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["//Dockerfile$/"],
       "matchStringsStrategy": "any",
       "matchStrings": [
         "\\s\\s(?<package>[a-z0-9][a-z0-9-]+)=(?<currentValue>[a-z0-9-:_+~.]+)\\s+"
       ],
       "versioningTemplate": "deb",
       "datasourceTemplate": "repology",
-      "depNameTemplate": "debian_12/{{package}}"
+      "depNameTemplate": "debian_13/{{package}}"
     }
   ],
   "packageRules": [
