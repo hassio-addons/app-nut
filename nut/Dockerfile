@@ -56,7 +56,7 @@ RUN apt-get update \
         libmodbus5=3.1.11-2 \
         libsnmp40t64=5.9.4+dfsg-2+deb13u1 \
         libusb-1.0-0=2:1.0.28-1 \
-        libxml2=2.12.7+dfsg+really2.9.14-2.1+deb13u2 \
+        libxml2=2.12.7+dfsg+really2.9.14-2.1+deb13u3 \
         usbutils=1:018-2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
