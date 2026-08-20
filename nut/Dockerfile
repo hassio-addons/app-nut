@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base:9.3.0
+ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base:9.4.0
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM} AS base
 
@@ -17,9 +17,9 @@ RUN \
         libltdl-dev=2.5.4-4 \
         libmodbus-dev=3.1.11-2 \
         libsnmp-dev=5.9.4+dfsg-2+deb13u1 \
-        libssl-dev=3.5.5-1~deb13u2 \
+        libssl-dev=3.5.6-1~deb13u2 \
         libusb-1.0-0-dev=2:1.0.28-1 \
-        libxml2-dev=2.12.7+dfsg+really2.9.14-2.1+deb13u2 \
+        libxml2-dev=2.12.7+dfsg+really2.9.14-2.1+deb13u3 \
         libtool=2.5.4-4 \
         pkg-config=1.8.1-4 \
     && apt-get clean \
@@ -56,7 +56,7 @@ RUN apt-get update \
         libmodbus5=3.1.11-2 \
         libsnmp40t64=5.9.4+dfsg-2+deb13u1 \
         libusb-1.0-0=2:1.0.28-1 \
-        libxml2=2.12.7+dfsg+really2.9.14-2.1+deb13u2 \
+        libxml2=2.12.7+dfsg+really2.9.14-2.1+deb13u3 \
         usbutils=1:018-2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
