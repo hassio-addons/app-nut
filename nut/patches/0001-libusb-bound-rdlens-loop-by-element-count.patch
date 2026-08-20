@@ -1,0 +1,85 @@
+From edc06fb39435b892d5daeec53cb4845cb12d1d50 Mon Sep 17 00:00:00 2001
+From: John Grant <john.grant@dronedeploy.com>
+Date: Tue, 28 Jul 2026 20:37:49 +1200
+Subject: [PATCH] drivers/libusb{0,1}.c: bound rdlens loop by element count,
+ not sizeof [#3136]
+
+nut_libusb_open() iterates the two candidate HID report descriptor lengths:
+
+	int32_t rdlen1, rdlen2, rdlens[2];
+	size_t j;
+	...
+	for (j = 0; j < sizeof(rdlens); j++)
+
+sizeof(rdlens) is 8 (bytes), not 2 (elements), so the loop reads
+rdlens[2..7] - 24 bytes past the end of the array - and uses that stack
+garbage as rdlen. The "ran out of candidates" check after the loop has
+the same bug.
+
+The out-of-range indices are only reached when neither real candidate
+satisfies the caller, i.e. exactly when a device is in a bad state and
+both descriptor reads fail. Garbage that happens to pass the rdlen sanity
+checks is then handed to libusb_control_transfer() and on to the HID
+parser callback, which is where it segfaults.
+
+Seen with usbhid-ups against an EcoFlow DELTA 3 Plus (3746:ffff) on an
+NVIDIA Jetson Orin Nano whose USB device had wedged; "usbreset" on the
+device cleared the wedge and hid the crash.
+
+Use SIZEOF_ARRAY() from common.h, which both files already include.
+libusb0.c carries the identical defect and is fixed the same way.
+
+Regression from aba6f43544b17d2f16e69ca19f162c6c19748fc7 ("if the tried
+'rdlen' did not succeed, fall back to the other value we had in mind"),
+first released in v2.8.5.
+
+Signed-off-by: John Grant <john.grant@dronedeploy.com>
+---
+ drivers/libusb0.c | 4 ++--
+ drivers/libusb1.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/libusb0.c b/drivers/libusb0.c
+index 52f08f2a98..8471136efb 100644
+--- a/drivers/libusb0.c
++++ b/drivers/libusb0.c
+@@ -651,7 +651,7 @@ static int nut_libusb_open(usb_dev_handle **udevp,
+ 				}
+ 			}
+ 
+-			for (j = 0; j < sizeof(rdlens); j++) {
++			for (j = 0; j < SIZEOF_ARRAY(rdlens); j++) {
+ 				rdlen = rdlens[j];
+ 				if (rdlen < 0)
+ 					continue;
+@@ -716,7 +716,7 @@ static int nut_libusb_open(usb_dev_handle **udevp,
+ 				break;
+ 			}
+ 
+-			if (j >= sizeof(rdlens)) {
++			if (j >= SIZEOF_ARRAY(rdlens)) {
+ 				/* Ended the loop without success */
+ 				goto next_device;
+ 			}
+diff --git a/drivers/libusb1.c b/drivers/libusb1.c
+index b02da58a2f..e9f6c855c4 100644
+--- a/drivers/libusb1.c
++++ b/drivers/libusb1.c
+@@ -807,7 +807,7 @@ static int nut_libusb_open(libusb_device_handle **udevp,
+ 			}
+ 		}
+ 
+-		for (j = 0; j < sizeof(rdlens); j++) {
++		for (j = 0; j < SIZEOF_ARRAY(rdlens); j++) {
+ 			rdlen = rdlens[j];
+ 			if (rdlen < 0)
+ 				continue;
+@@ -897,7 +897,7 @@ static int nut_libusb_open(libusb_device_handle **udevp,
+ 			break;
+ 		}
+ 
+-		if (j >= sizeof(rdlens)) {
++		if (j >= SIZEOF_ARRAY(rdlens)) {
+ 			/* Ended the loop without success */
+ 			goto next_device;
+ 		}

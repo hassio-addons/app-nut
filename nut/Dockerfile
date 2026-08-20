@@ -6,6 +6,9 @@ FROM base AS builder
 
 ARG NUT_VERSION=2.8.5
 
+# Patches applied to the NUT source before building
+COPY patches /patches
+
 # Setup builder
 RUN \
     apt-get update \
@@ -20,6 +23,7 @@ RUN \
         libusb-1.0-0-dev=2:1.0.28-1 \
         libxml2-dev=2.12.7+dfsg+really2.9.14-2.1+deb13u3 \
         libtool=2.5.4-4 \
+        patch=2.8-2 \
         pkg-config=1.8.1-4 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -35,6 +39,10 @@ RUN \
     && sha256sum --check "${NUT_FILENAME}.sha256" \
     && tar -xzvf "${NUT_FILENAME}" \
     && cd "${NUT_FILENAME%.tar.gz}" \
+    && for nut_patch in /patches/*.patch; do \
+        echo "Applying ${nut_patch}..." \
+        && patch -p1 --batch --forward -i "${nut_patch}"; \
+    done \
     && ./configure --prefix=/usr --datadir=/usr/share/nut --sysconfdir=/etc/nut --with-drvpath=/usr/libexec/nut \
         --with-usb --with-modbus --with-snmp --with-ssl \
     && make \
