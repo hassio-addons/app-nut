@@ -19,7 +19,7 @@ RUN \
         libltdl-dev=2.5.4-4 \
         libmodbus-dev=3.1.11-2 \
         libsnmp-dev=5.9.4+dfsg-2+deb13u1 \
-        libssl-dev=3.5.6-1~deb13u2 \
+        libssl-dev=3.5.7-1~deb13u2 \
         libusb-1.0-0-dev=2:1.0.28-1 \
         libxml2-dev=2.12.7+dfsg+really2.9.14-2.1+deb13u3 \
         libtool=2.5.4-4 \
