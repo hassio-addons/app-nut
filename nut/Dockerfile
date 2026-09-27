@@ -5,6 +5,8 @@ FROM ${BUILD_FROM} AS base
 FROM base AS builder
 
 ARG NUT_VERSION=2.8.5
+ARG LIBUSB_VERSION=1.0.28
+ARG LIBUSB_SHA256=966bb0d231f94a474eaae2e67da5ec844d3527a1f386456394ff432580634b29
 
 # Patches applied to the NUT source before building
 COPY patches /patches
@@ -20,13 +22,35 @@ RUN \
         libmodbus-dev=3.1.11-2 \
         libsnmp-dev=5.9.4+dfsg-2+deb13u1 \
         libssl-dev=3.5.7-1~deb13u2 \
-        libusb-1.0-0-dev=2:1.0.28-1 \
         libxml2-dev=2.12.7+dfsg+really2.9.14-2.1+deb13u3 \
         libtool=2.5.4-4 \
         patch=2.8-2 \
         pkg-config=1.8.1-4 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Use kernel hotplug events: host udev broadcasts do not reach bridge networking.
+# Keep this in /usr/local so distro dependencies cannot overwrite it.
+# Run upstream tests except stress_mt, which requires attached USB devices (#1373).
+# The netlink backend needs a nonempty usbfs root; provide an empty bus for CI.
+# hadolint ignore=DL3003
+RUN \
+    mkdir -p /app /build/libusb \
+    && cd /build/libusb \
+    && LIBUSB_FILENAME="libusb-${LIBUSB_VERSION}.tar.bz2" \
+    && curl -fL -O "https://github.com/libusb/libusb/releases/download/v${LIBUSB_VERSION}/${LIBUSB_FILENAME}" \
+    && test "$(sha256sum "${LIBUSB_FILENAME}")" = "${LIBUSB_SHA256}  ${LIBUSB_FILENAME}" \
+    && tar -xjvf "${LIBUSB_FILENAME}" \
+    && cd "${LIBUSB_FILENAME%.tar.bz2}" \
+    && ./configure --prefix=/usr/local --libdir=/usr/local/lib \
+        --disable-udev --disable-static --enable-tests-build \
+    && make \
+    && mkdir -p /dev/bus/usb/001 \
+    && make check TESTS="stress set_option init_context" VERBOSE=1 \
+    && rmdir /dev/bus/usb/001 \
+    && make install \
+    && make DESTDIR=/app install \
+    && ldconfig
 
 # hadolint ignore=DL3003
 RUN \
@@ -43,7 +67,9 @@ RUN \
         echo "Applying ${nut_patch}..." \
         && patch -p1 --batch --forward -i "${nut_patch}"; \
     done \
-    && ./configure --prefix=/usr --datadir=/usr/share/nut --sysconfdir=/etc/nut --with-drvpath=/usr/libexec/nut \
+    && PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
+        LDFLAGS="-Wl,-rpath,/usr/local/lib" \
+        ./configure --prefix=/usr --datadir=/usr/share/nut --sysconfdir=/etc/nut --with-drvpath=/usr/libexec/nut \
         --with-usb --with-modbus --with-snmp --with-ssl \
     && make \
     && make DESTDIR=/app install
@@ -67,6 +93,18 @@ RUN apt-get update \
         usbutils=1:018-2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Verify NUT's runpath wins over usbutils' Debian dependency on both architectures.
+RUN \
+    ldconfig \
+    && case "$(ldd /usr/libexec/nut/usbhid-ups)" in \
+        *"libusb-1.0.so.0 => /usr/local/lib/libusb-1.0.so.0 "*) ;; \
+        *) echo "NUT is not loading the kernel-backend libusb"; exit 1 ;; \
+    esac \
+    && LIBUSB_DEPENDENCIES="$(ldd /usr/local/lib/libusb-1.0.so.0)" \
+    && case "${LIBUSB_DEPENDENCIES}" in \
+        *libudev*) echo "The kernel-backend libusb must not depend on libudev"; exit 1 ;; \
+    esac
 
 # App environment
 
