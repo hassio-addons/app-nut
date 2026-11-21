@@ -23,7 +23,7 @@ RUN \
         libusb-1.0-0-dev=2:1.0.28-1 \
         libxml2-dev=2.12.7+dfsg+really2.9.14-2.1+deb13u3 \
         libtool=2.5.4-4 \
-        patch=2.8-2 \
+        patch=2.8-2+deb13u1 \
         pkg-config=1.8.1-4 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
